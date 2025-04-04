@@ -80,10 +80,10 @@ fn generate_straight_mesh(length: f32) -> Mesh {
         [0.0, 1.0, 0.0],
         [0.0, 1.0, 0.0],
         [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [-1.0, 0.0, 0.0],
+        [-1.0, 0.0, 0.0],
     ];
 
     create_mesh_from_attributes(vertices, indices, uvs, normals)
@@ -124,9 +124,9 @@ fn generate_turn_mesh(angle: f32, radius: f32) -> Mesh {
         uvs.push([i as f32 / segments as f32, 1.0]);
         uvs.push([i as f32 / segments as f32, 1.0]);
         normals.push([0.0, 1.0, 0.0]);
+        normals.push([1.0, 0.0, 0.0]);
         normals.push([0.0, 1.0, 0.0]);
-        normals.push([0.0, 1.0, 0.0]);
-        normals.push([0.0, 1.0, 0.0]);
+        normals.push([-1.0, 0.0, 0.0]);
 
         // Add indices for the quad (two triangles)
         if i < segments {
@@ -227,10 +227,10 @@ fn generate_slope_mesh(length: f32, height_change: f32) -> Mesh {
         normal,
         normal,
         normal,
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
-        [0.0, 1.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [-1.0, 0.0, 0.0],
+        [-1.0, 0.0, 0.0],
     ];
 
     create_mesh_from_attributes(vertices, indices, uvs, normals)
