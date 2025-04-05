@@ -152,11 +152,7 @@ fn handle_connect_event(
         let entity = commands
             .spawn(PlayerBundle {
                 position: PlayerPosition(
-                    Vec3::new(
-                        rand::random_range(-5.0..5.0),
-                        rand::random_range(-5.0..5.0),
-                        rand::random_range(-5.0..5.0),
-                    ),
+                    Vec3::new(0.0, rand::random_range(5.0..9.0), 400.0),
                     Quat::from_euler(EulerRot::XYZ, 0.0, 0.0, 0.0),
                 ),
                 color: PlayerColor(Color::oklab(0.50, -0.03, -0.09)),
