@@ -23,7 +23,9 @@ impl Plugin for WorldPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Startup, spawn_world);
         app.insert_resource(Physics(self.physics));
-        app.add_systems(Update, track_segment_collision_system);
+        if self.physics {
+            app.add_systems(Update, track_segment_collision_system);
+        }
     }
 }
 
