@@ -10,6 +10,7 @@ use std::{
     collections::HashMap,
     net::{Ipv4Addr, SocketAddr, SocketAddrV4},
     sync::{Arc, RwLock},
+    time::Duration,
 };
 
 use async_compat::Compat;
@@ -38,6 +39,8 @@ struct ServerArgs {
     game_port: u16,
     #[clap(long)]
     players: u8,
+    #[clap(long, default_value_t = 120)]
+    max_game_seconds: u32,
 }
 
 pub fn main() {
@@ -52,6 +55,7 @@ pub fn main() {
         game_server_addr: SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::LOCALHOST, game_port)),
         auth_server_addr: SocketAddr::V4(SocketAddrV4::new(Ipv4Addr::UNSPECIFIED, auth_port)),
         player_count: args.players,
+        max_game_seconds: args.max_game_seconds,
     };
 
     let mut app = App::new();
@@ -71,6 +75,7 @@ pub struct ServerPlugin {
     pub game_server_addr: SocketAddr,
     pub auth_server_addr: SocketAddr,
     pub player_count: u8,
+    pub max_game_seconds: u32,
 }
 #[derive(Resource)]
 struct ClientIds(Arc<RwLock<HashMap<u64, Entity>>>);
