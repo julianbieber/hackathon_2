@@ -120,6 +120,7 @@ impl Plugin for MyClientPlugin {
         app.add_plugins(PlayerPlugin {
             physics: false,
             player_count: 0,
+            max_seconds: 0,
         });
         app.add_systems(Startup, connect_client);
     }

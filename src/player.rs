@@ -10,6 +10,7 @@ use crate::{
 pub struct PlayerPlugin {
     pub physics: bool,
     pub player_count: u8,
+    pub max_seconds: u32,
 }
 
 #[derive(Resource, Debug)]
@@ -21,6 +22,12 @@ pub struct SpawnedPlayersCount {
     pub max: u8,
 }
 
+#[derive(Resource)]
+pub struct GameTime {
+    start: u128,
+    max_seconds: u32,
+}
+
 impl Plugin for PlayerPlugin {
     fn build(&self, app: &mut App) {
         app.add_systems(Update, attach_player_model);
@@ -29,6 +36,10 @@ impl Plugin for PlayerPlugin {
             max: self.player_count,
         });
         app.insert_resource(Physics(self.physics));
+        app.insert_resource(GameTime {
+            start: 0,
+            max_seconds: self.max_seconds,
+        });
     }
 }
 
@@ -40,11 +51,16 @@ fn attach_player_model(
     mut commands: Commands,
     mut meshes: ResMut<Assets<Mesh>>,
     mut materials: ResMut<Assets<StandardMaterial>>,
+    mut game_time: ResMut<GameTime>,
     player_count: Res<SpawnedPlayersCount>,
     physics: Res<Physics>,
+    time: Res<Time>,
 ) {
     if player_count.current == player_count.max {
         let mut c = 0;
+        if game_time.start == 0 {
+            game_time.start = time.elapsed().as_millis();
+        }
         for (position, color, entity) in player_query.iter() {
             c += 1;
             info!(position=?position, phys=?physics,"attach player model");
@@ -86,6 +102,8 @@ fn attach_player_model(
         }
     }
 }
+
+fn end_game() {}
 
 #[derive(Bundle)]
 pub struct PlayerBundle {
